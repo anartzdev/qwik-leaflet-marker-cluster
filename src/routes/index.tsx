@@ -1,117 +1,63 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-
-import Counter from '~/components/starter/counter/counter';
-import Hero from '~/components/starter/hero/hero';
-import Infobox from '~/components/starter/infobox/infobox';
-import Starter from '~/components/starter/next-steps/next-steps';
-
+import { component$, useSignal, useStore, useStyles$, useVisibleTask$, noSerialize } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import {LeafletMap} from "~/components/starter/leaflet";
 export default component$(() => {
+  useStyles$(`
+    #map {
+      margin-top: 1rem;
+      height: 450px;
+      border: 5px solid var(--custom-blue);
+    }
+
+    .leaflet-popup-content h1 {
+      color: black;
+    }
+
+    .leaflet-control-layers-list {
+      text-align: left;
+    }
+
+    .select {
+      background-color: grey !important;
+      color: whitesmoke !important;
+    }
+  `);
+  const SORALUZE = {
+      name: 'Soraluze',
+      location: [43.17478, -2.41172],
+      boundaryBox: '43.14658914559456,-2.4765586853027344,43.202923523094725,-2.3467826843261723',
+      zoom: 13
+  };
+  const location = useStore({
+    data: SORALUZE,
+    pois: [],
+    select: SORALUZE.name,
+  });
+
+  const openMap = useSignal(true)
+
+  useVisibleTask$(async ({track}) => {
+    track(openMap);
+    console.log(openMap.value);
+    console.log(window);
+  })
+
   return (
     <>
-      <Hero />
-
-      <div class="section bright">
-        <div class="container center">
-          <Starter />
-        </div>
-      </div>
-
       <div class="section">
-        <div class="container center">
-          <h3>
-            You can <b>count</b> on me
-          </h3>
-          <Counter />
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="container topics">
-          <Infobox>
-            <div q:slot="title" class="icon icon-cli">
-              CLI Commands
-            </div>
-            <>
-              <p>
-                <code>npm run dev</code>
-                <br />
-                Starts the development server and watches for changes
-              </p>
-              <p>
-                <code>npm run preview</code>
-                <br />
-                Creates production build and starts a server to preview it
-              </p>
-              <p>
-                <code>npm run build</code>
-                <br />
-                Creates production build
-              </p>
-              <p>
-                <code>npm run qwik add</code>
-                <br />
-                Runs the qwik CLI to add integrations
-              </p>
-            </>
-          </Infobox>
-
-          <div>
-            <Infobox>
-              <div q:slot="title" class="icon icon-apps">
-                Example Apps
-              </div>
-              <p>
-                Have a look at the <a href="/demo/flower">Flower App</a> or the{' '}
-                <a href="/demo/todolist">Todo App</a>.
-              </p>
-            </Infobox>
-
-            <Infobox>
-              <div q:slot="title" class="icon icon-community">
-                Community
-              </div>
-              <ul>
-                <li>
-                  <span>Questions or just want to say hi? </span>
-                  <a href="https://qwik.builder.io/chat" target="_blank">
-                    Chat on discord!
-                  </a>
-                </li>
-                <li>
-                  <span>Follow </span>
-                  <a href="https://twitter.com/QwikDev" target="_blank">
-                    @QwikDev
-                  </a>
-                  <span> on Twitter</span>
-                </li>
-                <li>
-                  <span>Open issues and contribute on </span>
-                  <a href="https://github.com/BuilderIO/qwik" target="_blank">
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <span>Watch </span>
-                  <a href="https://qwik.builder.io/media/" target="_blank">
-                    Presentations, Podcasts, Videos, etc.
-                  </a>
-                </li>
-              </ul>
-            </Infobox>
-          </div>
-        </div>
+        <button onClick$={() => openMap.value = true}>Show Map</button>
+        { openMap.value ? <LeafletMap location={location} />: undefined}
       </div>
     </>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Welcome to Qwik",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };
