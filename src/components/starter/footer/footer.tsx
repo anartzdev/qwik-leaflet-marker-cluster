@@ -7,10 +7,10 @@ export default component$(() => {
 
   return (
     <footer>
-      <a href="https://www.builder.io/" target="_blank" class={styles.anchor}>
-        Made with ♡ by Builder.io
-        <span class={styles.spacer}>|</span>
-        <span>{serverTime.value.date}</span>
+      <a href="https://twitter.com/mugan86" target="_blank" class={styles.anchor}>
+        Made with Anartz Mugika Ledo
+        <span class={styles.spacer}>-</span>
+        &#169; {serverTime.value.currentYear} Leaflet Map with Marker Cluster Demo in Qwik
       </a>
     </footer>
   );

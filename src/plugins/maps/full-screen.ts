@@ -45,7 +45,10 @@ const FullScreenMap = Control.extend({
     document.addEventListener('MSFullscreenChange', exitHandler);
 
     function exitFullScreen() {
-      document.exitFullscreen();
+      // document?.exitFullscreen();
+      if (document.fullscreenElement) {
+        setTimeout(() => document.exitFullscreen(), 520);
+      }
       container.style.backgroundImage =
         'url(https://cdn-icons-png.flaticon.com/512/2089/2089670.png)';
       container.title = options.entryText;
