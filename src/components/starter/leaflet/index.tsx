@@ -1,16 +1,12 @@
 import {
-  $,
   component$,
   useVisibleTask$,
   useStyles$,
   useSignal,
   noSerialize,
-  useStylesScoped$,
 } from "@builder.io/qwik";
 import * as L from "leaflet";
 
-// TODO https://www.leighhalliday.com/leaflet-clustering
-//
 import leafletCSS from "./../../../../node_modules/leaflet/dist/leaflet.css?inline";
 import { defaultIcon, otherIcon } from "~/utils/icons/default";
 import { mapZoomConfigs, getBoundaryBox, addMapControls } from "~/helpers";
@@ -26,7 +22,6 @@ export const LeafletMap = component$(({ location }: any) => {
   useVisibleTask$(async ({ track }) => {
     track(location);
     const pointCenter = location.data.location;
-    const centerPosition: L.LatLngExpression = [pointCenter[0], pointCenter[1]];
 
     if (location && window) {
       if (mapContainer$.value) {
@@ -36,8 +31,9 @@ export const LeafletMap = component$(({ location }: any) => {
       await import("leaflet.markercluster");
 
       const markersToCluster = new L.MarkerClusterGroup();
-
-      const map = new L.Map("map").setView(
+      
+      const centerPosition: L.LatLngExpression = [pointCenter[0], pointCenter[1]];
+      const map = L.map("map").setView(
         centerPosition,
         location.data.zoom || 13
       );
@@ -48,6 +44,12 @@ export const LeafletMap = component$(({ location }: any) => {
       location.data.boundaryBox = bounds;
 
       mapZoomConfigs(map, location.data);
+
+      L.marker(centerPosition, {
+        icon: defaultIcon,
+      })
+        .addTo(map)
+        .bindPopup(`<h1>${location.data.name}</h1>`);
 
       L.marker(centerPosition, {
         icon: defaultIcon,
