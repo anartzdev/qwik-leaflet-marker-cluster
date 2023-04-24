@@ -1,27 +1,9 @@
 import { component$, useStore, useStyles$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { LeafletMap } from "~/components/starter/leaflet";
+import styles from './index.css?inline';
 export default component$(() => {
-  useStyles$(`
-    #map {
-      margin-top: 1rem;
-      height: 750px;
-      border: 5px solid var(--custom-blue);
-    }
-
-    .leaflet-popup-content h1 {
-      color: black;
-    }
-
-    .leaflet-control-layers-list {
-      text-align: left;
-    }
-
-    .select {
-      background-color: grey !important;
-      color: whitesmoke !important;
-    }
-  `);
+  useStyles$(styles);
   const SORALUZE = {
     name: "Soraluze",
     location: [43.17478, -2.41172],
@@ -45,11 +27,53 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Leaflet Qwik - MarkerCluster Demo",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content: "Proyecto para validar la idea de trabajar con una cantidad alta de marcadores con el uso de MarkerCluster de Leaflet en Qwik",
+    },
+    {
+      name: "og:title",
+      content: "Leaflet Qwik - MarkerCluster Demo",
+    },
+    {
+      name: "og:description",
+      content: "Proyecto para validar la idea de trabajar con una cantidad alta de marcadores con el uso de MarkerCluster de Leaflet en Qwik",
+    },
+    {
+      name: "og:image",
+      content:
+        "https://jgengle.github.io/Leaflet/examples/quick-start/thumbnail.png",
+    },
+    {
+      name: "og:url",
+      content: "https://qwik-leaflet-marker-cluster-neklizw2b-anartzdev.vercel.app/",
+    },
+    {
+      name: "keywords",
+      content: "Leaflet Map, marker Cluster, Qwik, Qwik Framework",
+    },
+    {
+      name: "author",
+      content: "Anartz Mugika Ledo",
+    },
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+    {
+      name: "twitter:title",
+      content: "Leaflet Qwik - MarkerCluster Demo",
+    },
+    {
+      name: "twitter:description",
+      content: "Proyecto para validar la idea de trabajar con una cantidad alta de marcadores con el uso de MarkerCluster de Leaflet en Qwik",
+    },
+    {
+      name: "twitter:image",
+      content:
+      "https://jgengle.github.io/Leaflet/examples/quick-start/thumbnail.png",
     },
   ],
 };
