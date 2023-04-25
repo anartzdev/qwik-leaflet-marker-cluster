@@ -16,6 +16,7 @@ export default component$(() => {
     pois: [],
     select: SORALUZE.name,
   });
+ 
 
   return (
     <>
